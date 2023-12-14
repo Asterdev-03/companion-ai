@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+// This component can be used to manually toggle between light and dark mode and customize the theme
 export function ModeToggle() {
   const { setTheme } = useTheme();
 

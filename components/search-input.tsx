@@ -19,6 +19,9 @@ export const SearchInput = () => {
   const [value, setValue] = useState(name || "");
   const debounceValue = useDebounce<string>(value, 500);
 
+  // changes the url to add the category id in url only after waiting 500ms after the user's last keystroke.
+  // this enables not wasting time for changing the url after each keystroke and
+  // only changes when it realizes the user has finished typing in the search bar
   const onChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     setValue(event.target.value);
   };

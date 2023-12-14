@@ -19,6 +19,8 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
+      {/*  the body is enclosed in clerk provider which provides
+       authentication and only allow entry to url when authenticated */}
       <html lang="en" suppressHydrationWarning>
         <body className={cn("bg-secondary", inter.className)}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
