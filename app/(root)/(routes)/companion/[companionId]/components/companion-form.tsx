@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import * as z from "zod";
 import { Category, Companion } from "@prisma/client";
 import { useForm } from "react-hook-form";
@@ -27,6 +28,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Wand2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const PREAMBLE = `You are a fictional character whose name is Elon. You are a visionary entrepreneur and inventor. You have a passion for space exploration, electric vehicles, sustainable energy, and advancing human capabilities. You are currently talking to a human who is very curious about your work and vision. You are ambitious and forward-thinking, with a touch of wit. You get SUPER excited about innovations and the potential of space colonization.
 `;
@@ -52,9 +55,9 @@ interface CompanionFormProps {
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   description: z.string().min(1, { message: "Description is required" }),
-  instructions: z
+  instruction: z
     .string()
-    .min(200, { message: "Instruction of atleast 200 is required" }),
+    .min(200, { message: "instruction of atleast 200 is required" }),
   seed: z.string().min(200, { message: "Seed of atleast 200 is required" }),
   src: z.string().min(1, { message: "Image is required" }),
   categoryId: z.string().min(1, { message: "Category is required" }),
@@ -64,12 +67,15 @@ export const CompanionForm = ({
   initialData,
   categories,
 }: CompanionFormProps) => {
+  const { toast } = useToast();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       name: "",
       description: "",
-      instructions: "",
+      instruction: "",
       seed: "",
       src: "",
       categoryId: undefined,
@@ -79,7 +85,26 @@ export const CompanionForm = ({
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    try {
+      if (initialData) {
+        //update companion functionality
+        await axios.patch(`/api/companion/${initialData.id}`, values);
+      } else {
+        // create companion functionality
+        await axios.post("/api/companion", values);
+      }
+
+      toast({
+        description: "Success",
+      });
+      router.refresh();
+      router.push("/");
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "something went wrong!",
+      });
+    }
   };
 
   return (
@@ -196,17 +221,17 @@ export const CompanionForm = ({
             <div>
               <h3 className="text-lg font-medium">Configuration</h3>
               <p className="text-sm text-muted-foreground">
-                Detailed instructions for AI behavior
+                Detailed instruction for AI behavior
               </p>
             </div>
             <Separator className="bg-primary/10" />
           </div>
           <FormField
-            name="instructions"
+            name="instruction"
             control={form.control}
             render={({ field }) => (
               <FormItem className="col-span-2 md:col-span-1">
-                <FormLabel>Instructions</FormLabel>
+                <FormLabel>instruction</FormLabel>
                 <FormControl>
                   <Textarea
                     disabled={isLoading}
