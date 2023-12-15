@@ -15,6 +15,7 @@ export const Categories = ({ data }: CategoriesProps) => {
 
   const categoryId = searchParams.get("categoryId");
 
+  // to change the url to categoryId when clicking the specified category
   const onClick = (id: string | undefined) => {
     const query = { categoryId: id };
 
