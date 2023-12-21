@@ -9,7 +9,7 @@ export async function PATCH(
   try {
     const body = await req.json();
     const user = await currentUser();
-    const { src, name, description, instruction, seed, categoryId } = body;
+    const { src, name, description, instructions, seed, categoryId } = body;
 
     if (!params.companionId) {
       return new NextResponse("Companion id is required", { status: 400 });
@@ -19,7 +19,7 @@ export async function PATCH(
       return new NextResponse("Unauthorized User", { status: 401 });
     }
 
-    if (!src || !name || !description || !instruction || !seed || !categoryId) {
+    if (!src || !name || !description || !instructions || !seed || !categoryId) {
       return new NextResponse("Missing Requird Fields", { status: 400 });
     }
 
@@ -36,7 +36,7 @@ export async function PATCH(
         src,
         name,
         description,
-        instruction,
+        instructions,
         seed,
       },
     });

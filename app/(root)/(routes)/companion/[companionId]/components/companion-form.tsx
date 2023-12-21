@@ -55,9 +55,9 @@ interface CompanionFormProps {
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }),
   description: z.string().min(1, { message: "Description is required" }),
-  instruction: z
+  instructions: z
     .string()
-    .min(200, { message: "instruction of atleast 200 is required" }),
+    .min(200, { message: "instructions of atleast 200 is required" }),
   seed: z.string().min(200, { message: "Seed of atleast 200 is required" }),
   src: z.string().min(1, { message: "Image is required" }),
   categoryId: z.string().min(1, { message: "Category is required" }),
@@ -75,7 +75,7 @@ export const CompanionForm = ({
     defaultValues: initialData || {
       name: "",
       description: "",
-      instruction: "",
+      instructions: "",
       seed: "",
       src: "",
       categoryId: undefined,
@@ -221,17 +221,17 @@ export const CompanionForm = ({
             <div>
               <h3 className="text-lg font-medium">Configuration</h3>
               <p className="text-sm text-muted-foreground">
-                Detailed instruction for AI behavior
+                Detailed instructions for AI behavior
               </p>
             </div>
             <Separator className="bg-primary/10" />
           </div>
           <FormField
-            name="instruction"
+            name="instructions"
             control={form.control}
             render={({ field }) => (
               <FormItem className="col-span-2 md:col-span-1">
-                <FormLabel>instruction</FormLabel>
+                <FormLabel>instructions</FormLabel>
                 <FormControl>
                   <Textarea
                     disabled={isLoading}
