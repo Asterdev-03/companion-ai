@@ -27,7 +27,7 @@ export const CharForm = ({
   return (
     <form
       onSubmit={onSubmit}
-      className="border-t border-primary/10 py-4 flex items-center gap-y-2"
+      className="border-t border-primary/10 py-4 flex items-center gap-x-2"
     >
       <Input
         disabled={isLoading}
