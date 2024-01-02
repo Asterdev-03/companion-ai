@@ -96,15 +96,13 @@ export async function POST(
     const resp = String(
       await model
         .call(
-          `Yuo will ACT as ${companion.name}. ONLY generate plain conversations without prefix of who is speaking. DO NOT use ${companion.name}: prefix. 
-
-        ${companion.instructions}
-
-        Below are relevant details about ${companion.name}'s past and the conversation you are in.
-        ${relevantHistory}
-
-
-        ${recentChatHistory}\n${companion.name}:`
+          `ONLY generate plain conversations without prefix of who is speaking. DO NOT use this ${companion.name}: prefix.
+          You will ACT as ${companion.name}.
+          ${companion.instructions}
+          
+          Below are relevant details about ${companion.name}'s past and the conversation you are in.
+          ${relevantHistory}\n
+          ${recentChatHistory}\n${companion.name}:`
         )
         .catch(console.error)
     );
