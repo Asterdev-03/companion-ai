@@ -242,8 +242,8 @@ export const CompanionForm = ({
                   />
                 </FormControl>
                 <FormDescription>
-                  Describe in detail about your AI companion's backstorry and
-                  relevant details
+                  Describe in detail about your AI companion&apos;s backstorry
+                  and relevant details
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -265,8 +265,8 @@ export const CompanionForm = ({
                   />
                 </FormControl>
                 <FormDescription>
-                  Describe in detail about your AI companion's backstorry and
-                  relevant details
+                  Describe in detail about your AI companion&apos;s backstorry
+                  and relevant details
                 </FormDescription>
                 <FormMessage />
               </FormItem>
