@@ -96,12 +96,12 @@ export async function POST(
     const resp = String(
       await model
         .call(
-          `ONLY generate plain conversations without prefix of who is speaking. DO NOT use ${companion.name}: prefix.
-    
-          You will ACT as ${companion.name}. ${companion.instructions}
+          `ONLY generate plain conversations without prefix of who is speaking. DO NOT use this ${companion.name}: prefix.
+          You will ACT as ${companion.name}.
+          ${companion.instructions}
           
           Below are relevant details about ${companion.name}'s past and the conversation you are in.
-          
+          ${relevantHistory}\n
           ${recentChatHistory}\n${companion.name}:`
         )
         .catch(console.error)
@@ -111,10 +111,7 @@ export async function POST(
     const chunks = cleaned.split("\n");
     const response = chunks[0];
 
-    await memoryManager.writeToHistory(
-      companion.name + ": " + response.trim(),
-      companionKey
-    );
+    await memoryManager.writeToHistory("" + response.trim(), companionKey);
 
     var Readable = require("stream").Readable;
 
@@ -123,10 +120,7 @@ export async function POST(
     s.push(null);
 
     if (response !== undefined && response.length > 1) {
-      memoryManager.writeToHistory(
-        companion.name + ": " + response.trim(),
-        companionKey
-      );
+      memoryManager.writeToHistory("" + response.trim(), companionKey);
 
       await prismadb.companion.update({
         where: {
@@ -135,7 +129,7 @@ export async function POST(
         data: {
           messages: {
             create: {
-              content: companion.name + ": " + response.trim(),
+              content: response.trim(),
               role: "system",
               userId: user.id,
             },
